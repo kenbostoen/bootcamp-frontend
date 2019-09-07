@@ -4,6 +4,7 @@ import { EmployeeService } from "../services/employee.service";
 import { Employee } from "../model/employee";
 import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
+import { EmployeeSandbox } from '../sandboxes/employee.sandbox';
 
 @Component({
   selector: "app-employee-list",
@@ -11,9 +12,9 @@ import { Router } from '@angular/router';
   styleUrls: ["./employee-list.component.css"]
 })
 export class EmployeeListComponent implements OnInit {
-  employees: Observable<Employee[]>;
+  employees: Observable<Employee[]> = this.employeeSandbox.employees$;
 
-  constructor(private employeeService: EmployeeService,
+  constructor(private employeeSandbox: EmployeeSandbox,
     private router: Router) { }
 
   ngOnInit() {
@@ -21,18 +22,11 @@ export class EmployeeListComponent implements OnInit {
   }
 
   reloadData() {
-    console.log('getting employees')
-    this.employees = this.employeeService.getEmployeesList();
+    this.employeeSandbox.getEmployeesList();
   }
 
   deleteEmployee(id: number) {
-    this.employeeService.deleteEmployee(id)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.reloadData();
-        },
-        error => console.log(error));
+    this.employeeSandbox.deleteEmployee(id);
   }
 
   employeeDetails(id: number) {

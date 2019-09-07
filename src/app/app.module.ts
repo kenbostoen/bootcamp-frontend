@@ -7,6 +7,11 @@ import { CreateEmployeeComponent } from './create-employee/create-employee.compo
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EmployeeSandbox } from './sandboxes/employee.sandbox';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from "@ngrx/store";
+import { employeeReducer } from './statemanagement/employee.reducer';
+import { EmployeeService } from './services/employee.service';
 
 @NgModule({
   declarations: [
@@ -19,9 +24,16 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({
+      employees: employeeReducer
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 50 })
   ],
-  providers: [],
+  providers: [
+    EmployeeSandbox,
+    EmployeeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

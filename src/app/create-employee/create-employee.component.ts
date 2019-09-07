@@ -2,6 +2,7 @@ import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../model/employee';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmployeeSandbox } from '../sandboxes/employee.sandbox';
 
 @Component({
   selector: 'app-create-employee',
@@ -13,7 +14,7 @@ export class CreateEmployeeComponent implements OnInit {
   employee: Employee = new Employee();
   submitted = false;
 
-  constructor(private employeeService: EmployeeService,
+  constructor(private employeeSandbox: EmployeeSandbox,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -26,12 +27,7 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   save() {
-    this.employeeService.createEmployee(this.employee)
-      .subscribe(() => {
-        this.employee = new Employee();
-        this.submitted = true;
-      }, error => console.log(error));
-
+    this.employeeSandbox.createEmployee(this.employee);
   }
 
   onSubmit() {

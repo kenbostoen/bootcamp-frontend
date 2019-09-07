@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { EmployeeListComponent } from '../employee-list/employee-list.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { EmployeeSandbox } from '../sandboxes/employee.sandbox';
 
 @Component({
   selector: 'app-employee-details',
@@ -15,18 +16,17 @@ export class EmployeeDetailsComponent implements OnInit {
   employee: Employee;
 
   constructor(private route: ActivatedRoute, private router: Router,
-    private employeeService: EmployeeService) { }
+    private employeeSandbox: EmployeeSandbox) { }
 
   ngOnInit() {
     this.employee = new Employee();
 
     this.id = this.route.snapshot.params['id'];
 
-    this.employeeService.getEmployee(this.id)
-      .subscribe(data => {
-        console.log(data)
-        this.employee = data;
-      }, error => console.log(error));
+    this.employeeSandbox.getEmployee(this.id).subscribe(employee => {
+      this.employee = employee;
+    });
+
   }
 
   list() {
